@@ -8,17 +8,17 @@ const Navigation = ({ web3Handler, account }) => {
     return (
         <Navbar expand="lg" bg="dark" variant="dark">
             <Container>
-                <Navbar.Brand href="#">
-                    <img src={market} width="40" height="40" alt="" className="d-inline-block align-top"/>{' '}ClosedSea
+                <Navbar.Brand href="http://www.dappuniversity.com/bootcamp">
+                    <img src={market} width="40" height="40" className="" alt="" className="d-inline-block align-top"/>{' '}ClosedSea
                    
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link as={Link} to="/">Home</Nav.Link>
-                        <Nav.Link as={Link} to="/create">Create</Nav.Link>
-                        <Nav.Link as={Link} to="/my-listed-items">My Listed Items</Nav.Link>
-                        <Nav.Link as={Link} to="/my-purchases">My Purchases</Nav.Link>
+                        <Nav.Link as={Link} to="/ethereum-boilerplate/">Home</Nav.Link>
+                        <Nav.Link as={Link} to="/ethereum-boilerplate/create">Create</Nav.Link>
+                        <Nav.Link as={Link} to="/ethereum-boilerplate/my-listed-items">My Listed Items</Nav.Link>
+                        <Nav.Link as={Link} to="/ethereum-boilerplate/my-purchases">My Purchases</Nav.Link>
                     </Nav>
                     <Nav>
                         {account ? (

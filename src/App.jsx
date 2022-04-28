@@ -1,7 +1,8 @@
 import {
   BrowserRouter,
   Routes,
-  Route
+  Route,
+  Navigate 
 } from "react-router-dom";
 import Navigation from './components/Navbar.jsx';
 import Home from './components/Home.jsx'
@@ -66,16 +67,16 @@ function App() {
             </div>
           ) : (
             <Routes>
-              <Route path="/" element={
+              <Route  path="/ethereum-boilerplate/" element={
                 <Home marketplace={marketplace} nft={nft} />
               } />
-              <Route path="/create" element={
+              <Route path="/ethereum-boilerplate/create" element={
                 <Create marketplace={marketplace} nft={nft} />
               } />
-              <Route path="/my-listed-items" element={
+              <Route path="/ethereum-boilerplate/my-listed-items" element={
                 <MyListedItems marketplace={marketplace} nft={nft} account={account} />
               } />
-              <Route path="/my-purchases" element={
+              <Route path="/ethereum-boilerplate/my-purchases" element={
                 <MyPurchases marketplace={marketplace} nft={nft} account={account} />
               } />
             </Routes>
