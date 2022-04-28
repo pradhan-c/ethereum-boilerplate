@@ -8,7 +8,7 @@ const Navigation = ({ web3Handler, account }) => {
     return (
         <Navbar expand="lg" bg="dark" variant="dark">
             <Container>
-                <Navbar.Brand>
+                <Navbar.Brand href={`https://etherscan.io/address/${account}`}>
                     <img src={market} width="40" height="40" className="" alt="" className="d-inline-block align-top"/>{' '}ClosedSea
                    
                 </Navbar.Brand>
