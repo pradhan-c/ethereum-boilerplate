@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import { MoralisProvider } from "react-moralis";
 import "./index.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import QuickStart from "components/QuickStart";
 import { MoralisDappProvider } from "./providers/MoralisDappProvider/MoralisDappProvider";
 

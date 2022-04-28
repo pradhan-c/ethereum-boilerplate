@@ -27,7 +27,7 @@ function NFTBalance() {
   const [visible, setVisibility] = useState(false);
   const [receiverToSend, setReceiver] = useState(null);
   const [amountToSend, setAmount] = useState(null);
-  const [nftToSend, setNftToSend] = useState(null);
+  const [nftToSell, setNftToSell] = useState(null);
   const [isPending, setIsPending] = useState(false);
 
   async function transfer(nft, amount, receiver) {
@@ -54,8 +54,8 @@ function NFTBalance() {
       });
   }
 
-  const handleTransferClick = (nft) => {
-    setNftToSend(nft);
+  const handleSellClick = (nft) => {
+    setNftToSell(nft);
     setVisibility(true);
   };
 
@@ -79,11 +79,8 @@ function NFTBalance() {
                     }
                   />
                 </Tooltip>,
-                <Tooltip title="Transfer NFT">
-                  <SendOutlined onClick={() => handleTransferClick(nft)} />
-                </Tooltip>,
-                <Tooltip title="Sell On OpenSea">
-                  <ShoppingCartOutlined onClick={() => alert("OPENSEA INTEGRATION COMING!")} />
+                <Tooltip title="List THis NFT">
+                  <ShoppingCartOutlined onClick={() => handleSellClick(nft)} />
                 </Tooltip>,
               ]}
               style={{ width: 240, border: "2px solid #e7eaf3" }}
@@ -103,17 +100,20 @@ function NFTBalance() {
           ))}
       </div>
       <Modal
-        title={`Transfer ${nftToSend?.name || "NFT"}`}
+        title={`Buy ${nftToSell?.name || "NFT"}`}
         visible={visible}
         onCancel={() => setVisibility(false)}
-        onOk={() => transfer(nftToSend, amountToSend, receiverToSend)}
-        confirmLoading={isPending}
-        okText="Send"
+        onOk={() => alert("Bought This NFT")}
+        okText="Sell"
       >
-        <AddressInput autoFocus placeholder="Receiver" onChange={setReceiver} />
-        {nftToSend && nftToSend.contract_type === "erc1155" && (
-          <Input placeholder="amount to send" onChange={(e) => handleChange(e)} />
-        )}
+        <img
+              src={nftToSell?.image}
+              style={{
+                width: "250px",
+                margin: "auto",
+                borderRadius: "10px",
+                marginBottom: "15px",
+              }}/>
       </Modal>
     </>
   );
