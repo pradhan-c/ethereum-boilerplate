@@ -1,15 +1,7 @@
-# Basic Sample Hardhat Project
+CONTRACT DEPLOYED TO RINKEBY TESTNET
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
+NFT CONTRACT ADDRESS ="0x3Dbb0D1cf56926E5157FED3b7eed6A3Fb746Fb99".
 
-Try running some of the following tasks:
+MARKETPLACE CONTRACT ADDRESS = "0x5E9C9FdD56Fa076B88830e10aF48C132134a125c".
 
-```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
-```
+FRONTEND DONE WITH REACT  REACT-BOOTSTRAP.
