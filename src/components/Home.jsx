@@ -1,24 +1,24 @@
-import { useState, useEffect } from 'react'
-import { ethers } from "ethers"
-import { Row, Col, Card, Button } from 'react-bootstrap'
+import { useState, useEffect } from 'react';
+import { ethers } from "ethers";
+import { Row, Col, Card, Button } from 'react-bootstrap';
 
 const Home = ({ marketplace, nft }) => {
-  const [loading, setLoading] = useState(true)
-  const [items, setItems] = useState([])
+  const [loading, setLoading] = useState(true);
+  const [items, setItems] = useState([]);
   const loadMarketplaceItems = async () => {
     // Load all unsold items
-    const itemCount = await marketplace.itemCount()
-    let items = []
+    const itemCount = await marketplace.itemCount();
+    let items = [];
     for (let i = 1; i <= itemCount; i++) {
-      const item = await marketplace.items(i)
+      const item = await marketplace.items(i);
       if (!item.sold) {
         // get uri url from nft contract
-        const uri = await nft.tokenURI(item.tokenId)
+        const uri = await nft.tokenURI(item.tokenId);
         // use uri to fetch the nft metadata stored on ipfs 
-        const response = await fetch(uri)
-        const metadata = await response.json()
+        const response = await fetch(uri);
+        const metadata = await response.json();
         // get total price of item (item price + fee)
-        const totalPrice = await marketplace.getTotalPrice(item.itemId)
+        const totalPrice = await marketplace.getTotalPrice(item.itemId);
         // Add item to items array
         items.push({
           totalPrice,
@@ -27,20 +27,20 @@ const Home = ({ marketplace, nft }) => {
           name: metadata.name,
           description: metadata.description,
           image: metadata.image
-        })
+        });
       }
     }
-    setLoading(false)
-    setItems(items)
+    setLoading(false);
+    setItems(items);
   }
 
   const buyMarketItem = async (item) => {
-    await (await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })).wait()
-    loadMarketplaceItems()
+    await (await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })).wait();
+    loadMarketplaceItems();
   }
 
   useEffect(() => {
-    loadMarketplaceItems()
+    loadMarketplaceItems();
   }, [])
   if (loading) return (
     <main style={{ padding: "1rem 0" }}>
