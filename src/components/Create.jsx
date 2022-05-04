@@ -26,6 +26,7 @@ const Create = ({ marketplace, nft }) => {
     if (!image || !price || !name || !description) return
     try{
       const result = await client.add(JSON.stringify({image, price, name, description}));
+      console.log(result);
       mintThenList(result);
     } catch(error) {
       console.log("ipfs uri upload error: ", error);
@@ -33,15 +34,9 @@ const Create = ({ marketplace, nft }) => {
   }
   const mintThenList = async (result) => {
     const uri = `https://ipfs.infura.io/ipfs/${result.path}`;
-    // mint nft 
-    await(await nft.mint(uri)).wait();
-    // get tokenId of new nft 
-    const id = await nft.tokenCount();
-    // approve marketplace to spend nft
-    await(await nft.setApprovalForAll(marketplace.address, true)).wait();
-    // add nft to marketplace
+
     const listingPrice = ethers.utils.parseEther(price.toString());
-    await(await marketplace.makeItem(nft.address, id, listingPrice)).wait();
+    await(await marketplace.createNFT(uri, listingPrice)).wait();
   }
   return (
     <div className="container-fluid mt-5">

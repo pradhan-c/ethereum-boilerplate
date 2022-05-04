@@ -5,18 +5,19 @@ import {
   Navigate 
 } from "react-router-dom";
 import Navigation from './components/Navbar.jsx';
-import Home from './components/Home.jsx'
-import Create from './components/Create.jsx'
-import MyListedItems from './components/MyListedItem.jsx'
-import MyPurchases from './components/MyPurchases.jsx'
-import MarketplaceAbi from './contracts/MarketPlace.json'
+import Home from './components/Home.jsx';
+import Create from './components/Create.jsx';
+import MyListedItems from './components/MyListedItem.jsx';
+import MyPurchases from './components/MyPurchases.jsx';
+import MarketplaceAbi from './contracts/MarketPlace.json';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Chains from "components/Chains";
 
-import NFTAbi from './contracts/Nft.json'
+import NFTAbi from './contracts/Nft.json';
 
-import { useState } from 'react'
-import { ethers } from "ethers"
-import { Spinner } from 'react-bootstrap'
+import { useState } from 'react';
+import { ethers } from "ethers";
+import { Spinner } from 'react-bootstrap';
 
 import './App.css';
 
@@ -25,8 +26,21 @@ function App() {
   const [account, setAccount] = useState(null);
   const [nft, setNFT] = useState({});
   const [marketplace, setMarketplace] = useState({});
+  
+
+  const chainHandler = async () => {
+    await window.ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: '0x4' }],
+   })
+  }
+
   // MetaMask Login/Connect
   const web3Handler = async () => {
+    await window.ethereum.request({
+      method: 'wallet_switchEthereumChain',
+      params: [{ chainId: '0x4' }],
+   })
     const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
     setAccount(accounts[0]);
     // Get provider from Metamask
@@ -35,7 +49,8 @@ function App() {
     const signer = provider.getSigner();
 
     window.ethereum.on('chainChanged', (chainId) => {
-      window.location.reload();
+      chainHandler();
+      
     })
 
     window.ethereum.on('accountsChanged', async function (accounts) {
@@ -46,10 +61,8 @@ function App() {
   }
   const loadContracts = async (signer) => {
     // Get deployed copies of contracts
-    const marketplace = new ethers.Contract("0x5E9C9FdD56Fa076B88830e10aF48C132134a125c", MarketplaceAbi.abi, signer);
+    const marketplace = new ethers.Contract("0xAD9ad8C0F2d0aE25dd93b58Cb50F015409cfa7Dc", MarketplaceAbi.abi, signer);
     setMarketplace(marketplace);
-    const nft = new ethers.Contract("0x3Dbb0D1cf56926E5157FED3b7eed6A3Fb746Fb99", NFTAbi.abi, signer);
-    setNFT(nft);
     setLoading(false);
   }
 
@@ -57,7 +70,7 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <>
-          <Navigation web3Handler={web3Handler} account={account} />
+          <Navigation Chains={Chains} web3Handler={web3Handler} account={account} />
         </>
         <div>
           {loading ? (

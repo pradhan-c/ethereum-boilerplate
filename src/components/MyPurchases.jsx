@@ -7,14 +7,14 @@ export default function MyPurchases({ marketplace, nft, account }) {
   const [purchases, setPurchases] = useState([]);
   const loadPurchasedItems = async () => {
     // Fetch purchased items from marketplace by quering Offered events with the buyer set as the user
-    const filter =  marketplace.filters.Bought(null,null,null,null,null,account);
+    const filter =  marketplace.filters.Bought(null,null,null,null,account);
     const results = await marketplace.queryFilter(filter);
     //Fetch metadata of each nft and add that to listedItem object.
     const purchases = await Promise.all(results.map(async i => {
       // fetch arguments from each result
       i = i.args;
       // get uri url from nft contract
-      const uri = await nft.tokenURI(i.tokenId);
+      const uri = await marketplace.tokenURI(i.itemId);
       // use uri to fetch the nft metadata stored on ipfs 
       const response = await fetch(uri);
       const metadata = await response.json();

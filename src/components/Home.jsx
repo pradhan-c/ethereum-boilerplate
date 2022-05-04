@@ -8,21 +8,26 @@ const Home = ({ marketplace, nft }) => {
   const loadMarketplaceItems = async () => {
     // Load all unsold items
     const itemCount = await marketplace.itemCount();
+   
+   
     let items = [];
     for (let i = 1; i <= itemCount; i++) {
       const item = await marketplace.items(i);
+      
       if (!item.sold) {
         // get uri url from nft contract
-        const uri = await nft.tokenURI(item.tokenId);
+        const uri = await marketplace.tokenURI(item.tokenId);
         // use uri to fetch the nft metadata stored on ipfs 
         const response = await fetch(uri);
         const metadata = await response.json();
         // get total price of item (item price + fee)
-        const totalPrice = await marketplace.getTotalPrice(item.itemId);
+        
+        const totalPrice = await marketplace.getTotalPrice(item.tokenId);
+      
         // Add item to items array
         items.push({
           totalPrice,
-          itemId: item.itemId,
+          itemId: item.tokenId,
           seller: item.seller,
           name: metadata.name,
           description: metadata.description,
@@ -35,13 +40,14 @@ const Home = ({ marketplace, nft }) => {
   }
 
   const buyMarketItem = async (item) => {
-    await (await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })).wait();
+
+    await (await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })).wait()
     loadMarketplaceItems();
   }
 
   useEffect(() => {
     loadMarketplaceItems();
-  }, [])
+  }, [items])
   if (loading) return (
     <main style={{ padding: "1rem 0" }}>
       <h2>Loading...</h2>

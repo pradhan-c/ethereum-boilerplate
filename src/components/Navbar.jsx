@@ -9,7 +9,7 @@ const Navigation = ({ web3Handler, account }) => {
         <Navbar expand="lg" bg="dark" variant="dark">
             <Container>
                 <Navbar.Brand href={`https://etherscan.io/address/${account}`}>
-                    <img src={market} width="40" height="40" className="" alt="" className="d-inline-block align-top"/>{' '}ClosedSea
+                    <img src={market} width="40" height="40"  alt="" className="d-inline-block align-top"/>{' '}ClosedSea
                    
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -20,7 +20,9 @@ const Navigation = ({ web3Handler, account }) => {
                         <Nav.Link as={Link} to="/ethereum-boilerplate/my-listed-items">My Listed Items</Nav.Link>
                         <Nav.Link as={Link} to="/ethereum-boilerplate/my-purchases">My Purchases</Nav.Link>
                     </Nav>
+                    
                     <Nav>
+                        
                         {account ? (
                             <Nav.Link
                                 href={`https://etherscan.io/address/${account}`}
