@@ -2,13 +2,13 @@
 pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 import "hardhat/console.sol";
 
-contract Marketplace is ReentrancyGuard {
+contract Marketplace is ERC721URIStorage {
 
     // Variables
     address payable public immutable feeAccount; // the account that receives fees
@@ -18,11 +18,10 @@ contract Marketplace is ReentrancyGuard {
     
 
     struct Item {
-        uint itemId;
-        IERC721 nft;
         uint tokenId;
         uint price;
         address payable seller;
+        address payable owner;
         bool sold;
     }
 
@@ -31,53 +30,59 @@ contract Marketplace is ReentrancyGuard {
 
     event Offered(
         uint itemId,
-        address indexed nft,
-        uint tokenId,
+        bool sold,
         uint price,
-        address indexed seller
+        address indexed seller,
+        address indexed owner
     );
     event Bought(
         uint itemId,
-        address indexed nft,
-        uint tokenId,
+         bool sold,
         uint price,
         address indexed seller,
         address indexed buyer
     );
 
-    constructor(uint _feePercent) {
+    constructor(uint _feePercent) ERC721("RealLife NFT", "Real"){
         feeAccount = payable(msg.sender);
         feePercent = _feePercent;
     }
 
+     /* Mints a token and lists it in the marketplace */
+    function createNFT(string memory tokenURI, uint256 price) external payable  {
+      itemCount.increment();
+      uint256 newTokenId = itemCount.current();
+
+      _mint(msg.sender, newTokenId);
+      _setTokenURI(newTokenId, tokenURI);
+      makeItem(newTokenId, price);
+      
+    }
+
     // Make item to offer on the marketplace
-    function makeItem(IERC721 _nft, uint _tokenId, uint _price) external nonReentrant {
+    function makeItem( uint _tokenId, uint _price) private  {
         require(_price > 0, "Price must be greater than zero");
-        // increment itemCount
-        itemCount.increment();
-        uint256 newItemCount = itemCount.current();
         // transfer nft
-        _nft.transferFrom(msg.sender, address(this), _tokenId);
+        _transfer(msg.sender, address(this), _tokenId);
         // add new item to items mapping
-        items[newItemCount] = Item (
-            newItemCount,
-            _nft,
+        items[_tokenId] = Item (
             _tokenId,
             _price,
             payable(msg.sender),
+            payable(address(this)),
             false
         );
         // emit Offered event
         emit Offered(
-            newItemCount,
-            address(_nft),
             _tokenId,
+            false,
             _price,
-            msg.sender
+            msg.sender,
+            address(this)
         );
     }
 
-    function purchaseItem(uint _itemId) external payable nonReentrant {
+    function purchaseItem(uint _itemId) external payable  {
         uint _totalPrice = getTotalPrice(_itemId);
         uint256 currentItemCount = itemCount.current();
         Item storage item = items[_itemId];
@@ -90,12 +95,11 @@ contract Marketplace is ReentrancyGuard {
         // update item to sold
         item.sold = true;
         // transfer nft to buyer
-        item.nft.transferFrom(address(this), msg.sender, item.tokenId);
+        _transfer(address(this), msg.sender, item.tokenId);
         // emit Bought event
         emit Bought(
             _itemId,
-            address(item.nft),
-            item.tokenId,
+            item.sold,
             item.price,
             item.seller,
             msg.sender
