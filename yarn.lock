@@ -2455,7 +2455,7 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@solidity-parser/parser@^0.14.1":
+"@solidity-parser/parser@^0.14.0", "@solidity-parser/parser@^0.14.1":
   "integrity" "sha512-eLjj2L6AuQjBB6s/ibwCAc0DwrR5Ge+ys+wgWo+bviU7fV2nTMQhU63CGaDKXg9iTmMxwhkyoggdIR7ZGRfMgw=="
   "resolved" "https://registry.npmjs.org/@solidity-parser/parser/-/parser-0.14.1.tgz"
   "version" "0.14.1"
@@ -7009,6 +7009,11 @@
   "integrity" "sha512-A8OG5SR/ij3SsJdWDJdkkSYUjQdCUx6APQXem0SaEePBSRg4eymGYwBkKo1Y6DU+af/Jn2dBQqDBvjnr9Vi8nQ=="
   "resolved" "https://registry.npmjs.org/emittery/-/emittery-0.7.2.tgz"
   "version" "0.7.2"
+
+"emoji-regex@^10.0.0":
+  "integrity" "sha512-xAEnNCT3w2Tg6MA7ly6QqYJvEoY1tm9iIjJ3yMKK9JPlWuRHAMoe5iETwQnx3M9TVbFMfsrBgWKR+IsmswwNjg=="
+  "resolved" "https://registry.npmjs.org/emoji-regex/-/emoji-regex-10.1.0.tgz"
+  "version" "10.1.0"
 
 "emoji-regex@^7.0.1":
   "integrity" "sha512-CwBLREIQ7LvYFB0WyRvwhq5N5qPhc6PMjD6bYggFlI5YyDgl+0vxq5VHbMOFqLg7hfWzmu8T5Z1QofhmTIhItA=="
@@ -14315,7 +14320,19 @@
   "resolved" "https://registry.npmjs.org/prepend-http/-/prepend-http-2.0.0.tgz"
   "version" "2.0.0"
 
-"prettier@^2.1.2":
+"prettier-plugin-solidity@^1.0.0-beta.19":
+  "integrity" "sha512-xxRQ5ZiiZyUoMFLE9h7HnUDXI/daf1tnmL1msEdcKmyh7ZGQ4YklkYLC71bfBpYU2WruTb5/SFLUaEb3RApg5g=="
+  "resolved" "https://registry.npmjs.org/prettier-plugin-solidity/-/prettier-plugin-solidity-1.0.0-beta.19.tgz"
+  "version" "1.0.0-beta.19"
+  dependencies:
+    "@solidity-parser/parser" "^0.14.0"
+    "emoji-regex" "^10.0.0"
+    "escape-string-regexp" "^4.0.0"
+    "semver" "^7.3.5"
+    "solidity-comments-extractor" "^0.0.7"
+    "string-width" "^4.2.3"
+
+"prettier@^2.1.2", "prettier@^2.3.0", "prettier@^2.6.2":
   "integrity" "sha512-PkUpF+qoXTqhOeWL9fu7As8LXsIUZ1WYaJiY/a7McAQzxjk82OF0tibkFXVCDImZtWxbvojFjerkiLb0/q8mew=="
   "resolved" "https://registry.npmjs.org/prettier/-/prettier-2.6.2.tgz"
   "version" "2.6.2"
@@ -16582,6 +16599,11 @@
     "require-from-string" "^2.0.0"
     "semver" "^5.5.0"
     "tmp" "0.0.33"
+
+"solidity-comments-extractor@^0.0.7":
+  "integrity" "sha512-wciNMLg/Irp8OKGrh3S2tfvZiZ0NEyILfcRCXCD4mp7SgK/i9gzLfhY2hY7VMCQJ3kH9UB9BzNdibIVMchzyYw=="
+  "resolved" "https://registry.npmjs.org/solidity-comments-extractor/-/solidity-comments-extractor-0.0.7.tgz"
+  "version" "0.0.7"
 
 "sort-keys@^1.0.0":
   "integrity" "sha1-RBttTTRnmPG05J6JIK37oOVD+a0="
