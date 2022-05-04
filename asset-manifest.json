@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/ethereum-boilerplate/static/css/main.a43125eb.chunk.css",
-    "main.js": "/ethereum-boilerplate/static/js/main.3df85a5f.chunk.js",
-    "main.js.map": "/ethereum-boilerplate/static/js/main.3df85a5f.chunk.js.map",
+    "main.js": "/ethereum-boilerplate/static/js/main.403472c8.chunk.js",
+    "main.js.map": "/ethereum-boilerplate/static/js/main.403472c8.chunk.js.map",
     "runtime-main.js": "/ethereum-boilerplate/static/js/runtime-main.97045a1c.js",
     "runtime-main.js.map": "/ethereum-boilerplate/static/js/runtime-main.97045a1c.js.map",
     "static/css/2.0a9ec390.chunk.css": "/ethereum-boilerplate/static/css/2.0a9ec390.chunk.css",
-    "static/js/2.7ff3d08e.chunk.js": "/ethereum-boilerplate/static/js/2.7ff3d08e.chunk.js",
-    "static/js/2.7ff3d08e.chunk.js.map": "/ethereum-boilerplate/static/js/2.7ff3d08e.chunk.js.map",
+    "static/js/2.e32b4e8e.chunk.js": "/ethereum-boilerplate/static/js/2.e32b4e8e.chunk.js",
+    "static/js/2.e32b4e8e.chunk.js.map": "/ethereum-boilerplate/static/js/2.e32b4e8e.chunk.js.map",
     "index.html": "/ethereum-boilerplate/index.html",
     "static/css/2.0a9ec390.chunk.css.map": "/ethereum-boilerplate/static/css/2.0a9ec390.chunk.css.map",
     "static/css/main.a43125eb.chunk.css.map": "/ethereum-boilerplate/static/css/main.a43125eb.chunk.css.map",
-    "static/js/2.7ff3d08e.chunk.js.LICENSE.txt": "/ethereum-boilerplate/static/js/2.7ff3d08e.chunk.js.LICENSE.txt"
+    "static/js/2.e32b4e8e.chunk.js.LICENSE.txt": "/ethereum-boilerplate/static/js/2.e32b4e8e.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.97045a1c.js",
     "static/css/2.0a9ec390.chunk.css",
-    "static/js/2.7ff3d08e.chunk.js",
+    "static/js/2.e32b4e8e.chunk.js",
     "static/css/main.a43125eb.chunk.css",
-    "static/js/main.3df85a5f.chunk.js"
+    "static/js/main.403472c8.chunk.js"
   ]
 }
