@@ -1,33 +1,32 @@
 import { useState, useEffect } from 'react';
 import { ethers } from "ethers";
+import axios from 'axios';
 import { Row, Col, Card } from 'react-bootstrap';
 
 export default function MyPurchases({ marketplace, nft, account }) {
   const [loading, setLoading] = useState(true);
   const [purchases, setPurchases] = useState([]);
   const loadPurchasedItems = async () => {
-    // Fetch purchased items from marketplace by quering Offered events with the buyer set as the user
-    const filter =  marketplace.filters.Bought(null,null,null,null,account);
-    const results = await marketplace.queryFilter(filter);
+    const results = await marketplace.connect(account).fetchItemsListed();
+    console.log(results);
     //Fetch metadata of each nft and add that to listedItem object.
     const purchases = await Promise.all(results.map(async i => {
-      // fetch arguments from each result
-      i = i.args;
+     
       // get uri url from nft contract
-      const uri = await marketplace.tokenURI(i.itemId);
-      // use uri to fetch the nft metadata stored on ipfs 
-      const response = await fetch(uri);
-      const metadata = await response.json();
+      const tokenUri = await marketplace.tokenURI(i.tokenId);
+      console.log(tokenUri);
+      const meta= await axios.get(tokenUri);
+     
       // get total price of item (item price + fee)
-      const totalPrice = await marketplace.getTotalPrice(i.itemId);
+      const totalPrice = await marketplace.getTotalPrice(i.tokenId);
       // define listed item object
       let purchasedItem = {
         totalPrice,
         price: i.price,
-        itemId: i.itemId,
-        name: metadata.name,
-        description: metadata.description,
-        image: metadata.image
+        itemId: i.tokenId,
+        name: meta.data.name,
+        description: meta.data.description,
+        image: meta.data.image
       }
       return purchasedItem
     }))
@@ -50,7 +49,7 @@ export default function MyPurchases({ marketplace, nft, account }) {
             {purchases.map((item, idx) => (
               <Col key={idx} className="overflow-hidden">
                 <Card>
-                  <Card.Img variant="top" src={item.image} />
+                  <Card.Img variant="top" width="200" height="200"  src={item.image} />
                   <Card.Footer>{ethers.utils.formatEther(item.totalPrice)} ETH</Card.Footer>
                 </Card>
               </Col>

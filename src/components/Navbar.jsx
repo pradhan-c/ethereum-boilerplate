@@ -17,8 +17,8 @@ const Navigation = ({ web3Handler, account }) => {
                     <Nav className="me-auto">
                         <Nav.Link as={Link} to="/ethereum-boilerplate/">Home</Nav.Link>
                         <Nav.Link as={Link} to="/ethereum-boilerplate/create">Create</Nav.Link>
-                        <Nav.Link as={Link} to="/ethereum-boilerplate/my-listed-items">My Listed Items</Nav.Link>
-                        <Nav.Link as={Link} to="/ethereum-boilerplate/my-purchases">My Purchases</Nav.Link>
+                        <Nav.Link as={Link} to="/ethereum-boilerplate/my-listed-items">My NFT's</Nav.Link>
+                        <Nav.Link as={Link} to="/ethereum-boilerplate/my-purchases">My Listed Items</Nav.Link>
                     </Nav>
                     
                     <Nav>

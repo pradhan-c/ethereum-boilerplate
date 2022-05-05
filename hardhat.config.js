@@ -14,10 +14,10 @@ const Alchemy_API_Key = "https://eth-rinkeby.alchemyapi.io/v2/bztw3gURvaNVRGo5xs
  */
 module.exports = {
   solidity: "0.8.4",
-  networks:{
+  /*networks:{
     rinkeby: {
       url : `https://eth-rinkeby.alchemyapi.io/v2/bztw3gURvaNVRGo5xsWKgBvIj0_67aAz`,
       accounts : [`0x${Private_Key}`]
     }
-  }
+  }*/
 };

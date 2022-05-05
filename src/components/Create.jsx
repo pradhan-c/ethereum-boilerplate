@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { ethers } from "ethers";
-import { Row, Form, Button } from 'react-bootstrap';
+import { Navigate  } from "react-router-dom";
+import { Row, Form, Button ,Spinner} from 'react-bootstrap';
 import { create as ipfsHttpClient } from 'ipfs-http-client';
 const client = ipfsHttpClient('https://ipfs.infura.io:5001/api/v0');
 
@@ -8,6 +9,8 @@ const Create = ({ marketplace, nft }) => {
   const [image, setImage] = useState('');
   const [price, setPrice] = useState(null);
   const [name, setName] = useState('');
+  const [redirect,setredirect] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const [description, setDescription] = useState('');
   const uploadToIPFS = async (event) => {
     event.preventDefault();
@@ -23,11 +26,16 @@ const Create = ({ marketplace, nft }) => {
     }
   }
   const createNFT = async () => {
-    if (!image || !price || !name || !description) return
+    setLoading(true);
+    if (!image || !price || !name || !description){
+      setLoading(false);
+      return;
+    } 
     try{
       const result = await client.add(JSON.stringify({image, price, name, description}));
       console.log(result);
       mintThenList(result);
+
     } catch(error) {
       console.log("ipfs uri upload error: ", error);
     }
@@ -36,7 +44,20 @@ const Create = ({ marketplace, nft }) => {
     const uri = `https://ipfs.infura.io/ipfs/${result.path}`;
 
     const listingPrice = ethers.utils.parseEther(price.toString());
-    await(await marketplace.createNFT(uri, listingPrice)).wait();
+    try{
+      await(await marketplace.createNFT(uri, listingPrice)).wait();
+      setLoading(false);
+      setredirect(true);
+      
+    } catch(error) {
+      console.log("ipfs uri upload error: ", error);
+      setLoading(false);
+    }
+    
+    
+  }
+  if(redirect) {
+    return<Navigate  to="/ethereum-boilerplate/"/>
   }
   return (
     <div className="container-fluid mt-5">
@@ -54,8 +75,16 @@ const Create = ({ marketplace, nft }) => {
               <Form.Control onChange={(e) => setDescription(e.target.value)} size="lg" required as="textarea" placeholder="Description" />
               <Form.Control onChange={(e) => setPrice(e.target.value)} size="lg" required type="number" placeholder="Price in ETH" />
               <div className="d-grid px-0">
-                <Button onClick={createNFT} variant="primary" size="lg">
-                  Create & List NFT!
+                <Button onClick={createNFT}  variant="primary" size="lg">{ isLoading ? <Spinner
+                    as="span"
+                    animation="border"
+                    size="sm"
+                    role="status"
+                    aria-hidden="true"
+                   
+                    /> : 
+                    
+                  'Create and list NFT'}
                 </Button>
               </div>
             </Row>

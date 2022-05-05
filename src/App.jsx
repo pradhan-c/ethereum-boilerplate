@@ -13,7 +13,7 @@ import MarketplaceAbi from './contracts/MarketPlace.json';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Chains from "components/Chains";
 
-import NFTAbi from './contracts/Nft.json';
+
 
 import { useState } from 'react';
 import { ethers } from "ethers";
@@ -24,7 +24,6 @@ import './App.css';
 function App() {
   const [loading, setLoading] = useState(true);
   const [account, setAccount] = useState(null);
-  const [nft, setNFT] = useState({});
   const [marketplace, setMarketplace] = useState({});
   
 
@@ -61,7 +60,7 @@ function App() {
   }
   const loadContracts = async (signer) => {
     // Get deployed copies of contracts
-    const marketplace = new ethers.Contract("0xAD9ad8C0F2d0aE25dd93b58Cb50F015409cfa7Dc", MarketplaceAbi.abi, signer);
+    const marketplace = new ethers.Contract("0x073a96C2c5aa2fDdfC3ADaECCC840CC80eF51bC9", MarketplaceAbi.abi, signer);
     setMarketplace(marketplace);
     setLoading(false);
   }
@@ -81,16 +80,16 @@ function App() {
           ) : (
             <Routes>
               <Route  path="/ethereum-boilerplate/" element={
-                <Home marketplace={marketplace} nft={nft} />
+                <Home marketplace={marketplace}  />
               } />
               <Route path="/ethereum-boilerplate/create" element={
-                <Create marketplace={marketplace} nft={nft} />
+                <Create marketplace={marketplace}  />
               } />
               <Route path="/ethereum-boilerplate/my-listed-items" element={
-                <MyListedItems marketplace={marketplace} nft={nft} account={account} />
+                <MyListedItems marketplace={marketplace}  account={account} />
               } />
               <Route path="/ethereum-boilerplate/my-purchases" element={
-                <MyPurchases marketplace={marketplace} nft={nft} account={account} />
+                <MyPurchases marketplace={marketplace}  account={account} />
               } />
             </Routes>
           )}

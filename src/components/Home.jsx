@@ -1,53 +1,42 @@
 import { useState, useEffect } from 'react';
 import { ethers } from "ethers";
+import axios from 'axios';
 import { Row, Col, Card, Button } from 'react-bootstrap';
 
 const Home = ({ marketplace, nft }) => {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
-  const loadMarketplaceItems = async () => {
-    // Load all unsold items
-    const itemCount = await marketplace.itemCount();
+  const loadMarketplaceItems =  async () => {
    
-   
-    let items = [];
-    for (let i = 1; i <= itemCount; i++) {
-      const item = await marketplace.items(i);
-      
-      if (!item.sold) {
-        // get uri url from nft contract
-        const uri = await marketplace.tokenURI(item.tokenId);
-        // use uri to fetch the nft metadata stored on ipfs 
-        const response = await fetch(uri);
-        const metadata = await response.json();
-        // get total price of item (item price + fee)
-        
-        const totalPrice = await marketplace.getTotalPrice(item.tokenId);
-      
-        // Add item to items array
-        items.push({
-          totalPrice,
-          itemId: item.tokenId,
-          seller: item.seller,
-          name: metadata.name,
-          description: metadata.description,
-          image: metadata.image
-        });
+    const data = await marketplace.fetchMarketItems();
+
+    const items = await Promise.all(data.map(async i => {
+      const tokenUri = await marketplace.tokenURI(i.tokenId);
+      const meta = await axios.get(tokenUri);
+      const totalPrice = await marketplace.getTotalPrice(i.tokenId);
+      let item = {
+        totalPrice,
+        itemId: i.tokenId,
+        seller: i.seller,
+        name: meta.data.name,
+        description: meta.data.description,
+        image: meta.data.image
       }
-    }
+      return item;
+    }))
     setLoading(false);
     setItems(items);
   }
 
   const buyMarketItem = async (item) => {
 
-    await (await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })).wait()
+    await (await marketplace.purchaseItem(item.itemId, { value: item.totalPrice })).wait();
     loadMarketplaceItems();
   }
 
   useEffect(() => {
     loadMarketplaceItems();
-  }, [items])
+  }, [])
   if (loading) return (
     <main style={{ padding: "1rem 0" }}>
       <h2>Loading...</h2>
@@ -61,7 +50,7 @@ const Home = ({ marketplace, nft }) => {
             {items.map((item, idx) => (
               <Col key={idx} className="overflow-hidden">
                 <Card>
-                  <Card.Img variant="top" src={item.image} />
+                  <Card.Img variant="top" width="200" height="200"  src={item.image} />
                   <Card.Body color="secondary">
                     <Card.Title>{item.name}</Card.Title>
                     <Card.Text>
